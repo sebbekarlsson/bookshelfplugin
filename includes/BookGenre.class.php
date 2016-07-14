@@ -4,6 +4,7 @@ class BookGenre {
     var $id;
     var $title;
     var $updated;
+    var $books_count = 0;
 
     function __construct($id=null) {
         $this->id = $id;
@@ -22,6 +23,13 @@ class BookGenre {
 
         $this->updated = $row->updated;
         $this->title = $row->title;
+
+        $row = $wpdb->get_row($wpdb->prepare('
+            SELECT COUNT(*) as i FROM
+                '.$wpdb->prefix.'books_genres_relations
+            WHERE `genre_id`=%d
+            ', $this->id));
+        $this->books_count = $row->i;
     }
 
     function update() {

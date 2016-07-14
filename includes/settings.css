@@ -5,3 +5,23 @@ label {
 input {
     margin-left: 0;
 }
+
+input:not(.button), textarea {
+    width: 100%;
+}
+
+table input, table textarea {
+    width: auto;
+}
+
+textarea {
+    min-height: 250px;
+}
+
+section {
+    width: 40%;
+}
+
+.table-section {
+    width: auto;
+}

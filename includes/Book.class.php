@@ -7,6 +7,7 @@ class Book {
     var $description;
     var $attachment_id = 0;
     var $meta = [];
+    var $genres = [];
 
     function __construct($id=null) {
         $this->id = $id;
@@ -34,6 +35,17 @@ class Book {
         foreach ($meta_rows as $m) {
             $this->meta[$m->name] = $m->value;
         }
+
+        $rows = $wpdb->get_results($wpdb->prepare(
+            'SELECT `genre_id` FROM `'.
+            $wpdb->prefix.'books_genres_relations` WHERE `book_id`=%d',
+            $this->id
+        ));
+
+        foreach ($rows as $row) {
+            $genre = get_book_genre($row->genre_id);
+            array_push($this->genres, $genre);
+        }
     }
 
     function update() {
@@ -47,7 +59,7 @@ class Book {
                 VALUES
                 (%s, %s, %d)
                 ",
-                $this->title,
+            $this->title,
                 $this->description,
                 $this->attachment_id
             );
@@ -63,7 +75,7 @@ class Book {
                 `attachment_id`=%d
                 WHERE `id`=%d
                 ",
-                $this->title,
+            $this->title,
                 $this->description,
                 $this->attachment_id,
                 $this->id
@@ -71,5 +83,21 @@ class Book {
             $wpdb->query($sql);
             return $this->id;
         }
+    }
+
+    function delete() {
+        global $wpdb;
+
+        $wpdb->query($wpdb->prepare('
+            DELETE FROM `'.$wpdb->prefix.'books_genres_relations`
+            WHERE `book_id`=%d; ', $this->id));
+
+        $wpdb->query($wpdb->prepare('
+            DELETE FROM `'.$wpdb->prefix.'books_meta`
+            WHERE `book_id`=%d;', $this->id));
+        
+        $wpdb->query($wpdb->prepare('DELETE FROM `'.$wpdb->prefix.'books`
+            WHERE `id`=%d;
+        ', $this->id));
     }
 }
