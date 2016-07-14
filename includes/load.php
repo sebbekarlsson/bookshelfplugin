@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Loading all required libraries/files for this Plugin.
+ */
 require_once 'table.php';
 require_once 'BookGenre.class.php';
 require_once 'Book.class.php';
