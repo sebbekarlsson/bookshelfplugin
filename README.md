@@ -1,3 +1,3 @@
 # bookshelfplugin
-[logo]: (new_book.png)
+[logo](new_book.png)
 
