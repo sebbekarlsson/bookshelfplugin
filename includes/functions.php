@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Fetch all existing genres.
+ *
+ * @return Array<Object>
+ */
 function get_all_book_genres() {
     global $wpdb;
     $genres = [];    
@@ -13,6 +18,13 @@ function get_all_book_genres() {
     return $genres;
 }
 
+/**
+ * Fetch genres by title
+ *
+ * @param String $title
+ *
+ * @return Array<Object>
+ */
 function get_book_genres_by_title($title) {
     global $wpdb;
     $genres = [];    
@@ -30,6 +42,13 @@ function get_book_genres_by_title($title) {
     return $genres;
 }
 
+/**
+ * Fetch books by genre_id
+ *
+ * @param Int $genre_id
+ *
+ * @return Object
+ */
 function get_books_by_genre_id($genre_id) {
     global $wpdb;
     $books = [];    
@@ -50,6 +69,13 @@ function get_books_by_genre_id($genre_id) {
     return $books;
 }
 
+/**
+ * Fetch genre by id
+ *
+ * @param $genre_id
+ *
+ * @return Object
+ */
 function get_book_genre($genre_id) {
     $genre = new BookGenre($genre_id);
     if (empty($genre->id)) { return null; }
@@ -57,6 +83,13 @@ function get_book_genre($genre_id) {
     return $genre;
 }
 
+/**
+ * Create new genre
+ *
+ * @param String $title
+ *
+ * @return Int
+ */
 function create_book_genre($title) {
     $gen = new BookGenre();
     $gen->title = $title;
@@ -65,6 +98,14 @@ function create_book_genre($title) {
     return $gen->id; 
 }
 
+/**
+ * Create new relation between a book and a genre
+ *
+ * @param Int $book_id
+ * @param Int $genre_id
+ *
+ * @return Int - id of relation
+ */
 function create_book_genre_relation($book_id, $genre_id) {
     global $wpdb;
 
@@ -78,6 +119,11 @@ function create_book_genre_relation($book_id, $genre_id) {
     return $wpdb->insert_id;
 }
 
+/**
+ * Remove all genres from a book
+ *
+ * @param Int $book_id
+ */
 function remove_genres_from_book($book_id) {
     global $wpdb;
 
@@ -91,6 +137,18 @@ function remove_genres_from_book($book_id) {
     return $wpdb->query($sql);
 }
 
+/**
+ * Create new book.
+ * Updates existing book if $book_id is set.
+ *
+ * @param String $title
+ * @param String $description
+ * @param Int $genre_id
+ * @param Int $attachment_id
+ * @param Int $book_id
+ *
+ * @return Int - id of book
+ */
 function create_book($title, $description, $genre_id=0, $attachment_id=0, $book_id=null) {
     $book = new Book($book_id);
     $book->title = $title;

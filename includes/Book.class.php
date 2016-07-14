@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * wp_books model
+ */
 class Book {
     var $id;
     var $updated;
@@ -17,6 +20,11 @@ class Book {
         }
     }
 
+    /**
+     * Fetches all data about this book and applies it to the model.
+     *
+     * @return Void
+     */
     function build() {
         global $wpdb;
 
@@ -48,6 +56,11 @@ class Book {
         }
     }
 
+    /**
+     * Updates/inserts book.
+     *
+     * @return Int - id of book
+     */
     function update() {
         global $wpdb;
 
@@ -85,6 +98,11 @@ class Book {
         }
     }
 
+    /**
+     * Deletes the book with all of its connections from the database.
+     *
+     * @return Void
+     */
     function delete() {
         global $wpdb;
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * wp_book_genres model
+ */
 class BookGenre {
     var $id;
     var $title;
@@ -14,6 +17,11 @@ class BookGenre {
         }
     }
 
+    /**
+     * Fetches all data about this book-genre and applies it to the model.
+     *
+     * @return Void
+     */
     function build() {
         global $wpdb;
 
@@ -32,6 +40,11 @@ class BookGenre {
         $this->books_count = $row->i;
     }
 
+    /**
+     * Updates/inserts book-genre.
+     *
+     * @return Int - id of genre
+     */
     function update() {
         global $wpdb;
         
@@ -50,7 +63,8 @@ class BookGenre {
                 ",
                 $this->title
             );
-            return $wpdb->query($sql);
+            $wpdb->query($sql);
+            return $wpdb->insert_id;
         } else {
             $sql = $wpdb->prepare(
                 "
@@ -62,7 +76,8 @@ class BookGenre {
                 $this->title,
                 $this->id
             );
-            return $wpdb->query($sql);
+            $wpdb->query($sql);
+            return $this->id;
         }
     }
 }
