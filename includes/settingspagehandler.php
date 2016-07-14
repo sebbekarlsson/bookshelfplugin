@@ -1,6 +1,5 @@
 <?php
 
-
 if (isset($_POST['publish_book'])) {
     $book_id = null;
     
