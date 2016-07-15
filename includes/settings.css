@@ -25,3 +25,7 @@ section {
 .table-section {
     width: auto;
 }
+
+table td img {
+    margin-right: 1rem;
+}

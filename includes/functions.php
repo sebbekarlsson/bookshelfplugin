@@ -9,7 +9,9 @@ function get_all_book_genres() {
     global $wpdb;
     $genres = [];    
 
-    $rows = $wpdb->get_results('SELECT `id` FROM `wp_book_genres`');
+    $rows = $wpdb->get_results(
+        'SELECT `id` FROM `'.$wpdb->prefix.'book_genres`'
+    );
 
     foreach ($rows as $row) {
         array_push($genres, new BookGenre($row->id));
@@ -30,7 +32,7 @@ function get_book_genres_by_title($title) {
     $genres = [];    
 
     $sql = $wpdb->prepare(
-        'SELECT `id` FROM `wp_book_genres` WHERE `title`=%s',
+        'SELECT `id` FROM `'.$wpdb->prefix.'book_genres` WHERE `title`=%s',
         $title
     );
     $rows = $wpdb->get_results($sql);
@@ -55,7 +57,7 @@ function get_books_by_genre_id($genre_id) {
 
     $sql = $wpdb->prepare(
         '
-        SELECT `book_id` FROM `wp_books_genres_relations`
+        SELECT `book_id` FROM `'.$wpdb->prefix.'books_genres_relations`
         WHERE `genre_id`=%d
         ',
         $genre_id
@@ -149,7 +151,13 @@ function remove_genres_from_book($book_id) {
  *
  * @return Int - id of book
  */
-function create_book($title, $description, $genre_id=0, $attachment_id=0, $book_id=null) {
+function create_book(
+    $title,
+    $description,
+    $genre_id=0,
+    $attachment_id=0,
+    $book_id=null
+) {
     $book = new Book($book_id);
     $book->title = $title;
     $book->description = $description;

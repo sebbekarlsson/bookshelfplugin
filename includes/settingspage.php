@@ -100,27 +100,24 @@ function bsp_books_page() {
 
         if (empty($gen) && isset($genres[0])) { $selected_genre = $genres[0]; }
     }
-    
+
     if (!empty($selected_genre))
-    $books = get_books_by_genre_id($selected_genre->id);
+        $books = get_books_by_genre_id($selected_genre->id);
 
     ?>
     <style type='text/css'><?php echo file_get_contents(plugin_dir_path(__FILE__) . 'settings.css'); ?></style>
     <form method='post'>
         <h2>Books</h2>
-        <?php if(sizeof($books) == 0) { ?>
-            <p>You have no books...</p>
-        <?php } else { ?>
         <section>
             <label for='book_genre'>Book Genre</label>
             <select name='book_genre' id='book_genre'>
                 <?php foreach ($genres as $g) { ?>
                     <option
                     value='<?php echo $g->id; ?>'
-                    <?php if (!empty($selected_genre)) { if ($g->id == $selected_genre->id) { ?> selected <?php } ?>>
+                    <?php if (!empty($selected_genre)) { if ($g->id == $selected_genre->id) { ?> selected <?php }} ?>>
                         <?php echo $g->title; ?> (<?php echo $g->books_count; ?>)
                     </option>
-                    <?php }} ?>
+                    <?php } ?>
             </select>
             <input class='button' type='submit' id='books_update' name='books_update' value='Update'>
         </section>
@@ -137,7 +134,7 @@ function bsp_books_page() {
                 <tbody>
                     <?php foreach ($books as $book) { ?>
                         <tr>
-                            <td><?php echo $book->title; ?></td>
+                            <td><img src='<?php echo plugin_dir_url(__FILE__) . "../book.gif"; ?>'><?php echo $book->title; ?></td>
                             <td><a class='button' href='/wp-admin/admin.php?page=New+Book&id=<?php echo $book->id; ?>'>Edit</a></td>
                             <td>
                                 <form method='post'>
@@ -150,7 +147,6 @@ function bsp_books_page() {
                 </tbody>
             </table>
         </section>
-<?php } ?>
     
 <?php
 }

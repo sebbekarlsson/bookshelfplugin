@@ -36,8 +36,11 @@ class BookGenre {
             SELECT COUNT(*) as i FROM
                 '.$wpdb->prefix.'books_genres_relations
             WHERE `genre_id`=%d
-            ', $this->id));
-        $this->books_count = $row->i;
+        ', $this->id));
+
+        if (isset($row->i)) {
+            $this->books_count = $row->i;
+        }
     }
 
     /**
